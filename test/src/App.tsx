@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div style={{ height: "100vh", width: "100vw" }}>
-      <div
+      {/* <div
         style={{
           height: "10%",
           display: "flex",
@@ -35,7 +35,7 @@ function App() {
         >
           Get Nodes
         </button>
-      </div>
+      </div> */}
       <div
         style={{
           display: "flex",

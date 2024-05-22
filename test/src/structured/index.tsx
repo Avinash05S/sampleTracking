@@ -21,7 +21,7 @@ import {
   RerouteExtensions,
 } from "rete-connection-reroute-plugin";
 
-import { dockNodes, mappingNodes } from "./mockData";
+import { dockNodes } from "./mockData";
 import NodeGenarator from "./NodeGen";
 type Node = NodeGenarator;
 type Conn = Connection<Node, Node>
@@ -50,23 +50,23 @@ export async function createEditor(container: HTMLElement) {
   const arrange = new AutoArrangePlugin<Schemes, AreaExtra>();
   const socket = new Classic.Socket("socket");
   arrange.addPreset(Presets.classic.setup({}));
-  dock.addPreset(DockPresets.classic.setup({ area, size: 100, scale: 0.6 }));
   editor.use(area);
+  dock.addPreset(DockPresets.classic.setup({ area, size: 100, scale: 0.6 }));
+//   dockNodes.forEach(async (e) => {
+//     await editor.addNode(new NodeGenarator(process, e as any, socket));
+//   });
   editor.use(dataflow);
-  
+
   area.use(reactRender);
-  
+
   area.use(arrange);
-  
+
   area.use(connection);
-  
+
   area.use(minimap);
-  
+
   area.use(dock);
-  mappingNodes.forEach(async (e) => {
-    await editor.addNode(new NodeGenarator(process, e as any, socket));
-  });
-  
+
   reactRender.use(reroutePlugin);
   connection.addPreset(ConnectionPresets.classic.setup());
   reactRender.addPreset(ReactPresets.classic.setup());
