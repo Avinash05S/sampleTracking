@@ -40,7 +40,7 @@ class NumberNode extends Classic.Node implements DataflowNode {
   constructor(initial: number, change?: (value: number) => void) {
     super("Number");
 
-    this.addOutput("value", new Classic.Output(socket, "Number"));
+    this.addOutput("output", new Classic.Output(socket, "Number"));
     this.addControl(
       "value",
       new Classic.InputControl("number", { initial, change })
@@ -136,20 +136,20 @@ export async function createEditor(container: HTMLElement) {
     })
   );
 
-  // const a = new NumberNode(1, process);
+  const a = new NumberNode(1, process);
   const b = new NumberNode(1, process);
   const add = new AddNode();
 
-  // await editor.addNode(a);
+  await editor.addNode(a);
   await editor.addNode(b);
   await editor.addNode(add);
 
-  // await editor.addConnection(new Connection(a, 'value', add, 'a'));
-  // await editor.addConnection(new Connection(b, 'value', add, 'b'));
+  await editor.addConnection(new Connection(a, 'output', add, 'a'));
+  await editor.addConnection(new Connection(b, 'output', add, 'b'));
 
-  // await area.nodeViews.get(a.id)?.translate(100, 100);
-  // await area.nodeViews.get(b.id)?.translate(100, 300);
-  // await area.nodeViews.get(add.id)?.translate(400, 150);
+  await area.nodeViews.get(a.id)?.translate(100, 100);
+  await area.nodeViews.get(b.id)?.translate(100, 300);
+  await area.nodeViews.get(add.id)?.translate(400, 150);
 
   AreaExtensions.zoomAt(area, editor.getNodes());
 
