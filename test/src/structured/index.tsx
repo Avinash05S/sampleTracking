@@ -30,7 +30,7 @@ type Schemes = GetSchemes<Node, Conn>;
 class Connection<A extends Node, B extends Node> extends Classic.Connection<
   A,
   B
-> {}
+> { }
 
 type AreaExtra =
   | Area2D<Schemes>
@@ -52,9 +52,9 @@ export async function createEditor(container: HTMLElement) {
   arrange.addPreset(Presets.classic.setup({}));
   editor.use(area);
   dock.addPreset(DockPresets.classic.setup({ area, size: 100, scale: 0.6 }));
-//   dockNodes.forEach(async (e) => {
-//     await editor.addNode(new NodeGenarator(process, e as any, socket));
-//   });
+  // dockNodes.forEach(async (e) => {
+  //   await editor.addNode(new NodeGenarator(process, e as any, socket));
+  // });
   editor.use(dataflow);
 
   area.use(reactRender);
@@ -72,7 +72,8 @@ export async function createEditor(container: HTMLElement) {
   reactRender.addPreset(ReactPresets.classic.setup());
 
   dockNodes.forEach((e) => {
-    const Node = () =>new NodeGenarator(process, e as any, socket)
+    console.log()
+    const Node = () => new NodeGenarator(process, e as any, socket)
     dock.add(Node);
   });
   reactRender.addPreset(ReactPresets.minimap.setup());
@@ -100,34 +101,40 @@ export async function createEditor(container: HTMLElement) {
   RerouteExtensions.selectablePins(reroutePlugin, selector, accumulating);
 
   async function process() {
-    // dataflow.reset();
-    // editor
-    //   .getNodes()
-    //   .filter((node) => node instanceof )
-    //   .forEach(async (node) => {
-    //     console.log(node.outputs);
-    //     await dataflow.fetch(node.id);
-    //     area.update(
-    //       "control",
-    //       (node.controls["result"] as Classic.InputControl<"number">).id
-    //     );
-    //   });
+    dataflow.reset();
+    editor.getNodes()
+      .filter((node) => node)
+      .forEach(async (node) => {
+        console.log(`node.outputs test`, node.outputs);
+        await dataflow.fetch(node.id);
+        area.update(
+          "control",
+          (node.controls["result"] as Classic.InputControl<"number">).id
+        );
+      });
   }
+  console.log(`editor.getNodes();`, editor.getNodes())
 
+  let nodesArray = [];
   editor.addPipe(async (context) => {
     console.log(context);
     if (
       context.type === "connectioncreated" ||
       context.type === "connectionremoved"
     ) {
+      console.log(`editor.getNodes(); in`, editor.getNodes())
       process();
     }
     if (context.type === "nodecreated") {
+      // console.log(`context`, context.data);
+      // let modifiedNode = {...context.data, outputs:["wwes-0wefwe-2q2fgf4-dfbo","wwes-0wefwe-2q2fgf4-dfbo"] }
+      // console.log(`modifiedNode`,modifiedNode)
+      // nodesArray.push(modifiedNode)
       await arrange.layout();
     }
+    console.log(`nodesArray`,nodesArray)
     return context;
   });
-
   process();
 
   return {
