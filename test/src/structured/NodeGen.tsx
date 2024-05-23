@@ -22,6 +22,7 @@ class NodeGenarator extends Classic.Node implements DataflowNode {
     data: (typeof node)[0] & { incharge: string },
     socket: Classic.Socket
   ) {
+    console.log(change, data, socket)
     super(data.title);
     const { incharge = null, input, output, nodeId } = data;
     this.id = nodeId;

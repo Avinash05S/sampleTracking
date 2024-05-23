@@ -39,6 +39,7 @@ type AreaExtra =
   | RerouteExtra;
 
 export async function createEditor(container: HTMLElement) {
+  const map = new Map();
   const editor = new NodeEditor<Schemes>();
   const area = new AreaPlugin<Schemes, AreaExtra>(container);
   const connection = new ConnectionPlugin<Schemes, AreaExtra>();
