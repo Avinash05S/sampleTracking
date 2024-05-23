@@ -34,14 +34,12 @@ export const getNodes: TController = async (req, res, next) => {
         formDataStructured[data.node_id as string] = [];
       formDataStructured[data.node_id as string].push(data);
     }
-    res
-      .status(200)
-      .json({
-        defaultNodes,
-        mappingNodes,
-        connections,
-        formData: formDataStructured,
-      });
+    res.status(200).json({
+      defaultNodes,
+      mappingNodes,
+      connections,
+      formData: formDataStructured,
+    });
   } catch (err: any) {
     res.send(err.message || err);
   }
@@ -58,7 +56,7 @@ export const getNodeForm: TController = async (req, res, next) => {
     res.send(
       await db("form_data")
         .select(["form_id", "label", "data_type", "required"])
-        .where({ is_form: true })
+        .where({ is_form: true, node_id })
     );
   } catch (err: any) {
     res.send(err.message || err);
@@ -76,7 +74,6 @@ export const defaultNodeCreate: TController = async (req, res, next) => {
       };
     }
     await db("node").insert(payload).onConflict("node_id").merge();
-
     res.status(200).send(node_id ? "Node Data Updated" : "Node Created");
   } catch (err) {
     next(err);
@@ -89,7 +86,8 @@ type reqBody = {
     title: string;
     incharge_id: string;
     tracking_id: string;
-    [key: string]: string;
+    initiated?: boolean;
+    [key: string]: string | boolean | undefined;
   }[];
   connections: {
     source_node: string;
@@ -110,12 +108,16 @@ export const mappingNodeCreate: TController = async (req, res, next) => {
       removedConnections,
     } = req.body as reqBody;
     const nodePayload = nodes.map(
-      ({ incharge_id, node_id, title, tracking_id }) => ({
-        incharge_id,
-        node_id,
-        title,
-        tracking_id,
-      })
+      ({ incharge_id, node_id, title, tracking_id, initiated }) => {
+        const returnValue: any = {
+          incharge_id,
+          node_id,
+          title,
+          tracking_id,
+        };
+        if (initiated) returnValue["initiated"] = true;
+        return returnValue;
+      }
     );
     const connectionPayload = connections.map(
       ({ connection_id, source_node, target_node, tracking_id }) => ({
@@ -146,6 +148,15 @@ export const mappingNodeCreate: TController = async (req, res, next) => {
       await Promise.all(promises);
     });
     res.send("Data Successfully Updated");
+  } catch (err: any) {
+    res.send(err.message || err);
+  }
+};
+
+export const getUserTracking: TController = async (req, res, next) => {
+  try {
+    const { user_id: incharge_id } = req.query;
+    res.status(200).json(await db("node_tracking").where({ incharge_id }));
   } catch (err: any) {
     res.send(err.message || err);
   }

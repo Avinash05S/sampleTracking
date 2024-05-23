@@ -6,9 +6,9 @@ const db = DB.knex();
 
 const userListColumns = ["user_id", "name", "email"];
 const userVerifyColumns = ["user_id", "name", "password", "email"];
-const payloadErr = "Please Ensure Payload Contains email and password";
+const payloadErr = "Please Enter the email and password";
 const noUserErr = "No User Found";
-const pwdErr = "Password Mismatch";
+const pwdErr = "Incorrect Password";
 
 export const getUserList: TController = async (req, res, next) => {
   try {
