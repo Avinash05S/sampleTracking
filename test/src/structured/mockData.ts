@@ -64,4 +64,10 @@ export const Output = [
     nodeId: "2736e723r9-ssf-238rh2389",
     connectionSource: "uefwu-wefewf-wefg-ewg",
   },
+  {
+    outputId: "wwes-0wefwe-2q2fgf4-dfbo",
+    label: "output2",
+    nodeId: "2736e723r9-ssf-238rh2389",
+    connectionSource: "uefwu-wefewf-wefg-ewg",
+  },
 ];
