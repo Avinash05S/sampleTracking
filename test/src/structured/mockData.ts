@@ -22,7 +22,7 @@ export const dockNodes = [
 export const mappingNodes = [
   {
     nodeId: "2736e723r98-n238-rh2389",
-    title: "Node1",
+    title: "MapNode1",
     input: [],
     output: ["wwe-0wefwe-2q2fvf4-dfbo"],
     script: "",
@@ -30,8 +30,17 @@ export const mappingNodes = [
     initial: true,
   },
   {
+    nodeId: "2736e723r98-n238-rh2124",
+    title: "MapNode2",
+    inputId: [],
+    outputId: ["wwe-0wefwe-2q2fvf5-dfbo"],
+    script: "",
+    requestId: "efewd-egeqg-qegeqg",
+    initial: true,
+  },
+  {
     nodeId: "2736e73-243r98-n238rh2389",
-    title: "Node2",
+    title: "MapNode3",
     input: ["uefwu-wefewf-wefg-ewg"],
     output: [],
     script: "",
