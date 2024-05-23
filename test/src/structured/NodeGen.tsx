@@ -25,6 +25,7 @@ class NodeGenarator extends Classic.Node implements DataflowNode {
     socket: Classic.Socket,
     duplicate?: boolean
   ) {
+    console.log(change, data, socket)
     super(data.title);
     const { incharge = null, input, output, nodeId } = data;
     this.id = !duplicate ? nodeId : generateUUID();
