@@ -3,6 +3,7 @@ import { ClassicPreset as Classic } from "rete";
 import { DataflowNode } from "rete-engine";
 import { Input, Output, dockNodes as node } from "./mockData";
 import { generateUUID } from "three/src/math/MathUtils.js";
+//import { generateUUID } from "three/src/math/MathUtils.js";
 //import { v4 as uuid } from "uuid";
 
 const InputMap = new Map<string, (typeof Output)[0]>();
@@ -27,9 +28,9 @@ class NodeGenarator extends Classic.Node implements DataflowNode {
   ) {
     console.log(change, data, socket)
     super(data.title);
-    const { incharge = null, input, output, nodeId } = data;
-    this.id = !duplicate ? nodeId : generateUUID();
-    this.defaultId = "234jhfg234hg3";
+    const { incharge = null, input, output, nodeId ,defaultId} = data;
+    this.id = duplicate ?  generateUUID(): nodeId;
+    this.defaultId = nodeId;
     console.log(`this.id`, this.id)
     console.log(`creatring node here`)
     input.forEach((e) => {

@@ -114,26 +114,34 @@ export async function createEditor(container: HTMLElement) {
         );
       });
   }
-  console.log(`editor.getNodes();`, editor.getNodes())
 
-  let nodesArray = [];
   editor.addPipe(async (context) => {
-    console.log(context);
+    if (context.type == "nodecreate") {
+      console.log(`context`, context.data);
+      debugger
+      let duplicate = true;
+      context.data = Object.assign(context.data, new NodeGenarator(process, {
+        nodeId: "eufkeyrgeryvg",
+        title: "",
+        input: [],
+        output: [],
+        script: "",
+        requestId: "",
+        initial: false,
+        incharge: "mr xy",
+        defaultId: ",mb,nhvyug  g"
+      }, socket, duplicate))
+      return context
+    }
     if (
       context.type === "connectioncreated" ||
       context.type === "connectionremoved"
     ) {
-      console.log(`editor.getNodes(); in`, editor.getNodes())
       process();
     }
     if (context.type === "nodecreated") {
-      // console.log(`context`, context.data);
-      // let modifiedNode = {...context.data, outputs:["wwes-0wefwe-2q2fgf4-dfbo","wwes-0wefwe-2q2fgf4-dfbo"] }
-      // console.log(`modifiedNode`,modifiedNode)
-      // nodesArray.push(modifiedNode)
       await arrange.layout();
     }
-    console.log(`nodesArray`,nodesArray)
     return context;
   });
   process();
